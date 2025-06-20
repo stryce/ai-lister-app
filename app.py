@@ -9,28 +9,77 @@ client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY"
 app = Flask(__name__)
 
 HTML_TEMPLATE = """
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Listing Generator</title>
   <style>
-    body { font-family: sans-serif; margin: 40px; background: #f8f9fa; }
-    h2 { color: #333; }
-    form { margin-bottom: 20px; }
-    pre { background: #eee; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
-    input[type="submit"] { padding: 10px 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input[type="file"] {
+      padding: 8px;
+    }
+    input[type="submit"] {
+      padding: 10px;
+      background: #007bff;
+      border: none;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    input[type="submit"]:hover {
+      background: #0056b3;
+    }
+    .result {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
   </style>
 </head>
 <body>
-  <h2>Upload your item photo</h2>
-  <form method="post" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <input type="submit" value="Generate Listing">
-  </form>
-  {% if result %}
-    <h3>Generated Listing:</h3>
-    <pre>{{ result }}</pre>
-  {% endif %}
+  <div class="container">
+    <h1>AI Listing Generator</h1>
+    <p style="text-align:center;">Upload an item photo and let AI generate your listing details!</p>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required>
+      <input type="submit" value="Generate Listing">
+    </form>
+
+    {% if result %}
+      <div class="result">
+        <h3>Generated Listing:</h3>
+        <pre>{{ result }}</pre>
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>
 """
