@@ -3,7 +3,7 @@ import openai
 import base64
 import os
 
-client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY"))
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
@@ -55,11 +55,15 @@ HTML_TEMPLATE = """
     }
     .result {
       background: #f9f9f9;
-      padding: 15px;
+      padding: 20px;
       border-radius: 4px;
       margin-top: 20px;
+      font-family: sans-serif;
+      font-size: 16px;
+      color: #333;
       white-space: pre-wrap;
-      font-family: monospace;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
   </style>
 </head>
@@ -75,7 +79,7 @@ HTML_TEMPLATE = """
     {% if result %}
       <div class="result">
         <h3>Generated Listing:</h3>
-        <pre>{{ result }}</pre>
+        <div>{{ result }}</div>
       </div>
     {% endif %}
   </div>
