@@ -110,7 +110,12 @@ def index():
                                     "Do not make up details that are not visible in the image."
                                 )
                             },
-                            { "type": "image_url", "image_url": image_data_url }
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": image_data_url
+                                }
+                            }
                         ]
                     }
                 ],
