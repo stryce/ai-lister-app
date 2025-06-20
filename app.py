@@ -4,7 +4,7 @@ import base64
 import os
 
 # === CONFIG ===
-openai.api_key = os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY")
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
@@ -45,27 +45,30 @@ def index():
             base64_img = base64.b64encode(img_bytes).decode('utf-8')
             image_data_url = f"data:image/jpeg;base64,{base64_img}"
 
-            response = openai.ChatCompletion.create(
+            chat_response = client.chat.completions.create(
                 model="gpt-4-vision-preview",
                 messages=[
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": (
-                                "You are an expert at writing online marketplace listings. "
-                                "Given this image, generate the following:\n"
-                                "- A clear, SEO-friendly title (under 80 characters)\n"
-                                "- A detailed description that covers brand, color, style, material, condition, and any unique features\n"
-                                "- 5-10 relevant keywords (comma-separated)\n\n"
-                                "Do not make up details that are not visible in the image."
-                            )},
-                            {"type": "image_url", "image_url": image_data_url}
+                            {
+                                "type": "text",
+                                "text": (
+                                    "You are an expert at writing online marketplace listings. "
+                                    "Given this image, generate the following:\\n"
+                                    "- A clear, SEO-friendly title (under 80 characters)\\n"
+                                    "- A detailed description that covers brand, color, style, material, condition, and any unique features\\n"
+                                    "- 5-10 relevant keywords (comma-separated)\\n\\n"
+                                    "Do not make up details that are not visible in the image."
+                                )
+                            },
+                            { "type": "image_url", "image_url": image_data_url }
                         ]
                     }
                 ],
                 max_tokens=500
             )
-            result = response['choices'][0]['message']['content']
+            result = chat_response.choices[0].message.content
 
     return render_template_string(HTML_TEMPLATE, result=result)
 
