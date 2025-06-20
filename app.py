@@ -3,7 +3,6 @@ import openai
 import base64
 import os
 
-# === CONFIG ===
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY"))
 
 app = Flask(__name__)
@@ -95,7 +94,7 @@ def index():
             image_data_url = f"data:image/jpeg;base64,{base64_img}"
 
             chat_response = client.chat.completions.create(
-                model="gpt-4-turbo",
+                model="gpt-4.1",
                 messages=[
                     {
                         "role": "user",
@@ -115,11 +114,11 @@ def index():
                         ]
                     }
                 ],
-                max_tokens=500
+                max_tokens=500,
             )
             result = chat_response.choices[0].message.content
 
     return render_template_string(HTML_TEMPLATE, result=result)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
