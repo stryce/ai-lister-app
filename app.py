@@ -46,7 +46,7 @@ def index():
             image_data_url = f"data:image/jpeg;base64,{base64_img}"
 
             chat_response = client.chat.completions.create(
-                model="gpt-4-vision-preview",
+                model="gpt-4-turbo",
                 messages=[
                     {
                         "role": "user",
